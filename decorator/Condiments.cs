@@ -5,11 +5,20 @@ public class Mocha : CondimentDecorator
     public Mocha(Beverage beverage)
     {
         this._beverage = beverage;
+        this.Size = beverage.Size;
     }
 
     public override double Cost()
     {
-        return this._beverage.Cost() + .20;
+        var cost = this._beverage.Cost();
+
+        return cost = _beverage.Size switch
+        {
+           DrinkSize.Large => cost + .20,
+           DrinkSize.Medium => cost + .15,
+           DrinkSize.Small => cost + .10,
+           _=> throw new NotImplementedException()
+        };
     }
 
     public override string GetDescription()
@@ -25,11 +34,20 @@ public class Whip : CondimentDecorator
     public Whip(Beverage beverage)
     {
         this._beverage = beverage;
+        this.Size = beverage.Size;
     }
 
     public override double Cost()
     {
-        return _beverage.Cost() + .20;
+        var cost = this._beverage.Cost();
+
+        return cost = _beverage.Size switch
+        {
+           DrinkSize.Large => cost + .20,
+           DrinkSize.Medium => cost + .15,
+           DrinkSize.Small => cost + .10,
+           _=> throw new NotImplementedException()
+        };
     }
 
     public override string GetDescription()
@@ -40,19 +58,27 @@ public class Whip : CondimentDecorator
 
 public class Soy : CondimentDecorator
 {
-    Beverage beverage;
-
+    Beverage _beverage;
     public Soy(Beverage beverage)
     {
-        this.beverage = beverage;
+        this._beverage = beverage;
+        this.Size = beverage.Size;
     }
     public override double Cost()
     {
-        return beverage.Cost() + .49;
+        var cost = this._beverage.Cost();
+
+        return cost = _beverage.Size switch
+        {
+           DrinkSize.Large => cost + .50,
+           DrinkSize.Medium => cost + .35,
+           DrinkSize.Small => cost + .20,
+           _=> throw new NotImplementedException()
+        };
     }
 
     public override string GetDescription()
     {
-        return beverage.GetDescription() + ", Soy";
+        return _beverage.GetDescription() + ", Soy";
     }
 }

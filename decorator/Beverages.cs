@@ -1,8 +1,9 @@
 public class Espresso : Beverage 
 {
-    public Espresso() 
+    public Espresso(DrinkSize drinkSize) 
     {
         description = "Espresso";
+        Size = drinkSize;
     }
     public override double Cost()
     {
@@ -12,9 +13,10 @@ public class Espresso : Beverage
 
 public class HouseBlend : Beverage
 {
-    public HouseBlend()
+    public HouseBlend(DrinkSize drinkSize)
     {
         description = "House Blend Coffee";
+        Size = drinkSize;
     }
 
     public override double Cost()
