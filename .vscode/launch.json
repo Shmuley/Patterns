@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/decorator/bin/Debug/net6.0/decorator.dll",
+            "program": "${workspaceFolder}/factory/bin/Debug/net6.0/factory.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/decorator",
+            "cwd": "${workspaceFolder}/factory",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
