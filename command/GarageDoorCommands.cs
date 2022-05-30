@@ -11,6 +11,10 @@ public class GarageDoorOpenCommand : ICommand
     {
         this.garageDoor.Up();
     }
+
+    public void Undo(){
+        this.garageDoor.Down();
+    }
 }
 
 public class GarageDoor

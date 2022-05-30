@@ -11,6 +11,10 @@ public class LightOnCommand : ICommand
     {
         light.On();
     }
+    public void Undo()
+    {
+        light.Off();
+    }
 }
 public class LightOffCommand : ICommand
 {
@@ -25,10 +29,16 @@ public class LightOffCommand : ICommand
     {
         light.Off();
     }
+    public void Undo()
+    {
+        this.light.On();
+    }
 }
 
 public class Light
 {
+    public delegate void ChangeLight();
+
     public void On()
     {
         System.Console.WriteLine("Light has been turned on");
