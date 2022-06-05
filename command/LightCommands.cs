@@ -1,50 +1,42 @@
-public class LightOnCommand : ICommand
+public class LightCommand : ICommand
 {
     Light light;
+    public Func<Action, Action> OnExecuteAction;
+    public Func<Action, Action> OffExecuteAction;
+    public Action PreviousState;
 
-    public LightOnCommand(Light light)
+    public LightCommand(Light light)
     {
         this.light = light;
-    }
-
-    public void Execute()
-    {
-        light.On();
-    }
-    public void Undo()
-    {
-        light.Off();
-    }
-}
-public class LightOffCommand : ICommand
-{
-    Light light;
-
-    public LightOffCommand(Light light)
-    {
-        this.light = light;
-    }
-
-    public void Execute()
-    {
-        light.Off();
-    }
-    public void Undo()
-    {
-        this.light.On();
+        PreviousState = () => { light.Off(); };
     }
 }
 
 public class Light
 {
-    public delegate void ChangeLight();
+    Func<Action> State;
 
-    public void On()
+    public Light()
     {
-        System.Console.WriteLine("Light has been turned on");
+       State = () => { return Off().Invoke(); };
     }
-    public void Off()
+
+    public Func<Action> On()
     {
+        var previousState = State; 
+        System.Console.WriteLine("Light has been turned on");
+        State = () => { return On().Invoke(); };
+        return previousState;
+    }
+    public Func<Action> Off()
+    {
+        var previousState = State; 
         System.Console.WriteLine("Light has been turned off");
+        State = () => {  return Off().Invoke(); };
+        return previousState;
+    }
+    public Func<Action> GetState()
+    {
+        return State;
     }
 }

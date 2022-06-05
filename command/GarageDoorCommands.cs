@@ -1,15 +1,17 @@
-public class GarageDoorOpenCommand : ICommand
+public class GarageDoorCommand : ICommand
 {
     private readonly GarageDoor garageDoor;
+    public Action ExecuteAction;
 
-    public GarageDoorOpenCommand(GarageDoor garageDoor)
+    public GarageDoorCommand(GarageDoor garageDoor)
     {
         this.garageDoor = garageDoor;
     }
 
-    public void Execute()
+    public Action Execute()
     {
-        this.garageDoor.Up();
+        ExecuteAction();
+        return () => {};
     }
 
     public void Undo(){

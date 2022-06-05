@@ -2,24 +2,24 @@ using System.Text;
 
 public class RemoteControl
 {
-    ICommand[] onCommands;
-    ICommand[] offCommands;
-    ICommand undoCommand;
+    Func<Action>[] onCommands;
+    Func<Action>[] offCommands;
+    Action undoCommand;
 
     public RemoteControl()
     {
-        onCommands = new ICommand[7];
-        offCommands = new ICommand[7];
+        onCommands = new Func<Action>[7];
+        offCommands = new Func<Action>[7];
 
         for (int i = 0; i < 7; i++)
         {
-            onCommands[i] = new NoCommand();
-            offCommands[i] = new NoCommand();
+            onCommands[i] = () => {return () => {};};
+            offCommands[i] = () => {return () => {};};
         }
-        undoCommand = new NoCommand();
+        undoCommand = () => {};
     }
 
-    public void SetCommand(int slot, ICommand onCommand, ICommand offCommand)
+    public void SetCommand(int slot, Func<Action> onCommand, Func<Action> offCommand)
     {
         onCommands[slot] = onCommand;
         offCommands[slot] = offCommand;
@@ -27,19 +27,17 @@ public class RemoteControl
 
     public void OnButtonWasPushed(int slot)
     {
-        onCommands[slot].Execute();
-        undoCommand = onCommands[slot];
+        undoCommand = onCommands[slot]();
     }
 
     public void OffButtonWasPushed(int slot)
     {
-        offCommands[slot].Execute();
-        undoCommand = offCommands[slot];
+        undoCommand = offCommands[slot]();
     }
 
     public void UndoButtonWasPushed()
     {
-        undoCommand.Undo();
+        undoCommand();
     }
 
     public override string ToString()

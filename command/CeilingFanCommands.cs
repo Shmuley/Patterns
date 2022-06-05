@@ -1,17 +1,19 @@
-public class CeilingFanHighCommand : ICommand
+public class CeilingFanCommand : ICommand
 {
     private readonly CeilingFan ceilingFan;
     private FanSpeed previousSpeed;
+    public Action ExecuteAction;
 
-    public CeilingFanHighCommand(CeilingFan ceilingFan)
+    public CeilingFanCommand(CeilingFan ceilingFan)
     {
         this.ceilingFan = ceilingFan;
     }
 
-    public void Execute()
+    public Action Execute()
     {
+        ExecuteAction();
         previousSpeed = ceilingFan.GetSpeed();
-        ceilingFan.High();
+        return () => {};
     }
 
     public void Undo()
@@ -35,84 +37,6 @@ public class CeilingFanHighCommand : ICommand
             ceilingFan.Off();
         }
 
-        previousSpeed = currentSpeed;
-    }
-}
-public class CeilingFanLowCommand : ICommand
-{
-    private readonly CeilingFan ceilingFan;
-    private FanSpeed previousSpeed;
-
-    public CeilingFanLowCommand(CeilingFan ceilingFan)
-    {
-        this.ceilingFan = ceilingFan;
-    }
-
-    public void Execute()
-    {
-        previousSpeed = ceilingFan.GetSpeed();
-        ceilingFan.Low();
-    }
-
-    public void Undo()
-    {
-        var currentSpeed = ceilingFan.GetSpeed();
-
-        if (previousSpeed == FanSpeed.High)
-        {
-            ceilingFan.High();
-        }
-        else if (previousSpeed == FanSpeed.Medium)
-        {
-            ceilingFan.Medium();
-        }
-        else if (previousSpeed == FanSpeed.Low)
-        {
-            ceilingFan.Low();
-        }
-        else
-        {
-            ceilingFan.Off();
-        }
-        previousSpeed = currentSpeed;
-    }
-}
-public class CeilingFanOffCommand : ICommand
-{
-    private readonly CeilingFan ceilingFan;
-    private FanSpeed previousSpeed;
-
-    public CeilingFanOffCommand(CeilingFan ceilingFan)
-    {
-        this.ceilingFan = ceilingFan;
-    }
-
-    public void Execute()
-    {
-        previousSpeed = ceilingFan.GetSpeed();
-        ceilingFan.Off();
-    }
-
-    public void Undo()
-    {
-        var currentSpeed = ceilingFan.GetSpeed();
-
-        if (previousSpeed == FanSpeed.High)
-        {
-            ceilingFan.High();
-        }
-        else if (previousSpeed == FanSpeed.Medium)
-        {
-            ceilingFan.Medium();
-        }
-        else if (previousSpeed == FanSpeed.Low)
-        {
-            ceilingFan.Low();
-        }
-        else
-        {
-            ceilingFan.Off();
-        }
         previousSpeed = currentSpeed;
     }
 }
